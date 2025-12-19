@@ -1,0 +1,16 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             version="2.1">
+
+    <persistence-unit name="beta2PU" transaction-type="JTA">
+
+        <jta-data-source>jdbc/Beta2DS</jta-data-source>
+
+        <properties>
+            <property name="hibernate.dialect"
+                      value="org.hibernate.dialect.Oracle12cDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>
