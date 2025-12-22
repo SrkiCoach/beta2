@@ -2,6 +2,16 @@
 <!DOCTYPE glassfish-web-app PUBLIC
         "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN"
         "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+
 <glassfish-web-app>
+    <!--
+        Defines the context root (base URL path) for your web application
+        when deployed to GlassFish/Payara.
+
+        Example:
+        If context-root="/beta2" and JAX-RS base path is "/api" (from RestApplication),
+        then REST endpoint /vehicles is accessible at:
+            http://localhost:8080/beta2/api/vehicles
+    -->
     <context-root>/beta2</context-root>
 </glassfish-web-app>

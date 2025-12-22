@@ -1,14 +1,36 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              version="2.1">
 
+    <!--
+        Define a persistence unit named "beta2PU"
+        This name is referenced in your VehicleFacade via @PersistenceContext(unitName = "beta2PU")
+        transaction-type="JTA" means that the container manages transactions automatically.
+    -->
     <persistence-unit name="beta2PU" transaction-type="JTA">
 
+        <!--
+            JTA DataSource configured in your application server (e.g., GlassFish/Payara)
+            The name "jdbc/Beta2DS" must match the JNDI name of your database resource.
+            JTA datasource allows container-managed transactions.
+        -->
         <jta-data-source>jdbc/Beta2DS</jta-data-source>
 
         <properties>
+            <!--
+                Hibernate dialect for Oracle 12c
+                Hibernate uses this to generate proper SQL for your database
+            -->
             <property name="hibernate.dialect"
                       value="org.hibernate.dialect.Oracle12cDialect"/>
+
+            <!--
+                Show SQL statements in the server log (useful for debugging)
+            -->
             <property name="hibernate.show_sql" value="true"/>
+
+            <!--
+                Format SQL for easier reading in the log
+            -->
             <property name="hibernate.format_sql" value="true"/>
         </properties>
 
