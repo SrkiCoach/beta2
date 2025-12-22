@@ -87,7 +87,8 @@ public class VehicleResource {
         Vehicle existing = vehicleFacade.find(id);
 
         if (existing == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        //    return Response.status(Response.Status.NOT_FOUND).build();
+            throw new NotFoundException("Vehicle not found");
         }
 
         // Update managed entity

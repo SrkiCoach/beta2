@@ -47,7 +47,7 @@ public class VehicleDto {
         return type;
     }
 
-    // 🔥 SETTERS (THIS IS WHAT WAS MISSING)
+    //  SETTERS (THIS IS WHAT WAS MISSING)
     public void setId(Long id) {
         this.id = id;
     }
