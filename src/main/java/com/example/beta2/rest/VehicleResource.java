@@ -1,6 +1,9 @@
 package com.example.beta2.rest;
 
 // Import DTO, EJB, and Entity classes
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 import com.example.beta2.dto.PagedResponse;
 import com.example.beta2.dto.VehicleDto;
 import com.example.beta2.ejb.VehicleFacade;
@@ -26,6 +29,10 @@ import javax.validation.Valid;         // For validating incoming DTOs
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class VehicleResource {
+
+    private static final Set<String> ALLOWED_SORTS =
+            new HashSet<>(Arrays.asList("id", "brand", "year", "type"));
+
 
     /**
      * Inject the VehicleFacade EJB to interact with the database.
@@ -173,6 +180,11 @@ public class VehicleResource {
             @QueryParam("sort") @DefaultValue("id") String sort,
             @QueryParam("dir")  @DefaultValue("asc") String dir
     ) {
+
+        if (!ALLOWED_SORTS.contains(sort)) {
+            throw new BadRequestException("Invalid sort field");
+        }
+
         boolean asc = !"desc".equalsIgnoreCase(dir);
 
         List<VehicleDto> items =
