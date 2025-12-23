@@ -1,6 +1,7 @@
 package com.example.beta2.rest;
 
 // Import DTO, EJB, and Entity classes
+import com.example.beta2.dto.PagedResponse;
 import com.example.beta2.dto.VehicleDto;
 import com.example.beta2.ejb.VehicleFacade;
 import com.example.beta2.entity.Vehicle;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;      // For constructing HTTP responses
 import java.util.List;
 import java.util.stream.Collectors;    // To transform lists of entities into DTOs
 import javax.validation.Valid;         // For validating incoming DTOs
+
 
 /**
  * VehicleResource is a JAX-RS REST endpoint that exposes CRUD operations for Vehicle entities.
@@ -41,6 +43,7 @@ public class VehicleResource {
      * - Returns a JSON list of DTOs.
      */
     @GET
+    @Path("/all")
     public List<VehicleDto> getAll() {
         return vehicleFacade.findAll()
                 .stream() // Stream the list of entities
@@ -160,6 +163,32 @@ public class VehicleResource {
 
         // Return HTTP 200 OK with updated DTO
         return Response.ok(responseDto).build();
+    }
+
+    @GET
+    @Path("/paged")
+    public PagedResponse<VehicleDto> getPaged(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("size") @DefaultValue("10") int size,
+            @QueryParam("sort") @DefaultValue("id") String sort,
+            @QueryParam("dir")  @DefaultValue("asc") String dir
+    ) {
+        boolean asc = !"desc".equalsIgnoreCase(dir);
+
+        List<VehicleDto> items =
+                vehicleFacade.findPage(page, size, sort, asc)
+                        .stream()
+                        .map(v -> new VehicleDto(
+                                v.getId(),
+                                v.getBrand(),
+                                v.getYear(),
+                                v.getType()
+                        ))
+                        .collect(java.util.stream.Collectors.toList());
+
+        long total = vehicleFacade.countAll();
+
+        return new PagedResponse<>(items, page, size, total);
     }
 
 }

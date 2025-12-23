@@ -87,4 +87,29 @@ public class VehicleFacade {
         return em.merge(vehicle);
     }
 
+    public List<Vehicle> findPage(
+            int page,
+            int size,
+            String sort,
+            boolean asc
+    ) {
+        String direction = asc ? "ASC" : "DESC";
+
+        String jpql = "SELECT v FROM Vehicle v ORDER BY v." + sort + " " + direction;
+
+        return em.createQuery(jpql, Vehicle.class)
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    public long countAll() {
+        return em.createQuery(
+                "SELECT COUNT(v) FROM Vehicle v",
+                Long.class
+        ).getSingleResult();
+    }
+
+
+
 }

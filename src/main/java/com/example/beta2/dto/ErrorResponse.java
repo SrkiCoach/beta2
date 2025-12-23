@@ -29,6 +29,10 @@ public class ErrorResponse {
      * @param error   Short summary of the error
      * @param details List of detailed messages explaining the error
      */
+    // REQUIRED by JSON-B
+    public ErrorResponse() {
+    }
+
     public ErrorResponse(String error, List<String> details) {
         this.error = error;
         this.details = details;
